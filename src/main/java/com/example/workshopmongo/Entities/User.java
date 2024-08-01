@@ -1,6 +1,7 @@
 package com.example.workshopmongo.Entities;
 
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -10,6 +11,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode
+
+@Document(collation = "User") //substitui o @Entity do mysQL
 public class User implements Serializable {
 
     @Serial
