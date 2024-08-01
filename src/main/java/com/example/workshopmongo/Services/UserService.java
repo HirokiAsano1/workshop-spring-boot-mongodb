@@ -12,6 +12,7 @@ public class UserService {
 
     @Autowired //INTANCIAR AUTOMATICAMENTE
     private UserRepository userRepository;
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
