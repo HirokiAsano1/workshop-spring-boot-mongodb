@@ -5,11 +5,10 @@ import com.example.workshopmongo.Entities.User;
 import com.example.workshopmongo.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,4 +37,33 @@ public class UserController {
         return ResponseEntity.ok().body(new UserDTO(obj)); // converter para userDTO
 
     }
+
+    @PostMapping
+    public ResponseEntity<Void> Save (@RequestBody UserDTO objDto)
+    {
+        User obj = userService.fromDto(objDto);
+        obj = userService.save(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); // linha responsavel por retorna um cabeçario contendo o caminho do obj criado
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update (@RequestBody UserDTO objDto,@PathVariable String id)
+    {
+        User obj = userService.fromDto(objDto);
+        obj.setId(id);
+        obj = userService.update(obj);
+        return ResponseEntity.noContent().build(); //cod204
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity <Void> Delete(@PathVariable String id)
+    {
+     userService.delete(id);
+
+     return ResponseEntity.noContent().build(); //cod204
+
+    }
+
+
 }
