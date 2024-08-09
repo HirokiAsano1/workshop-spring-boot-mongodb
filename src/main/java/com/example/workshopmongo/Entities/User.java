@@ -2,13 +2,15 @@ package com.example.workshopmongo.Entities;
 
 import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -25,4 +27,13 @@ public class User implements Serializable {
     private String email;
 
 
+    @DBRef (lazy = true) // esse lazy faz com que os post referenciados do usuario só seja carregado se eu acessa-los , caso contrario irar mostrar so os user
+    private List<Post> posts = new ArrayList<>();
+
+    public User(String id , String name , String email)
+    {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 }
