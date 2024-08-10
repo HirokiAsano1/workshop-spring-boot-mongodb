@@ -1,6 +1,7 @@
 package com.example.workshopmongo.Controller;
 
 import com.example.workshopmongo.DTO.UserDTO;
+import com.example.workshopmongo.Entities.Post;
 import com.example.workshopmongo.Entities.User;
 import com.example.workshopmongo.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,15 @@ public class UserController {
      userService.delete(id);
 
      return ResponseEntity.noContent().build(); //cod204
+
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity <List<Post>> findPosts(@PathVariable String id) //essa anotação é para passar o requisito por URL
+    {
+        User obj = userService.findById(id);
+
+        return ResponseEntity.ok().body(obj.getPosts()); // Retornar os Posts a partir da variavel posts propia do user
 
     }
 
